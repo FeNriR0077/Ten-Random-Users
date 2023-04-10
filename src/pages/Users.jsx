@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import fetchUsers from "src/utils";
 import Table from "src/components/Table";
-import UserContextProvider from "src/Hooks";
+import UserContextProvider from "src/hooks";
 import { Loading, Error } from "src/components/Utils";
 
 const TRUEFALSE = {

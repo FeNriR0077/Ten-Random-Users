@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { UserContext } from "src/Hooks/UserContextProvider";
+import { UserContext } from "src/hooks/UserContextProvider";
 
 const Body = () => {
 	const list = useContext(UserContext);
