@@ -31,7 +31,6 @@ const Users = () => {
 			} catch (error) {
 				if (error.name === "AbortError") {
 				} else {
-					console.log(error.message);
 					setError(error.message);
 				}
 
