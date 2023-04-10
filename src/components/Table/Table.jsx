@@ -1,5 +1,5 @@
-import Head from "./Head";
-import Body from "./Body";
+import Head from "src/components/Table/Head";
+import Body from "src/components/Table/Body";
 
 const Table = () => (
 	<div className="flex justify-center w-full text-center table-container">
