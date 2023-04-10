@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import fetchUsers from "src/utils";
-import Table from "src/components/Table";
+import { Loading, Error, fetchUsers } from "src/utils";
 import UserContextProvider from "src/hooks";
-import { Loading, Error } from "src/components/Utils";
+import Table from "src/components/Table";
 
 const TRUEFALSE = {
 	TRUE: true,
@@ -53,7 +52,7 @@ const Users = () => {
 			<button
 				type="button"
 				id="user-actionrefresh"
-				className="block mt-9 mb-6 mx-auto px-4 py-1 border-2 rounded-md border-sky-600 text-sky-600 text-lg hover:bg-sky-600 hover:text-white"
+				className="block px-4 py-1 mx-auto mb-6 text-lg border-2 rounded-md mt-9 border-sky-600 text-sky-600 hover:bg-sky-600 hover:text-white"
 				disabled={loading ? "disabled" : ""}
 				onClick={handleRefresh}
 			>

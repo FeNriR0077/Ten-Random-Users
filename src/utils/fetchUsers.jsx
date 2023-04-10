@@ -1,4 +1,4 @@
-const url = "https://randomuser.me/api/?results=10";
+const url = import.meta.env.VITE_URL;
 
 const fetchUsers = async (abortController) => {
 	const request = await fetch(url, {
