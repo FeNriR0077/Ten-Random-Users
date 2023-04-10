@@ -1,11 +1,9 @@
-import Users from "./components/Users/Users";
+import Users from "src/pages";
 
-function App() {
-	return (
-		<div className="App">
-			<Users />
-		</div>
-	);
-}
+const App = () => (
+	<div className="App">
+		<Users />
+	</div>
+);
 
 export default App;
