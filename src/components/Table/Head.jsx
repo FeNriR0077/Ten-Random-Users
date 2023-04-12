@@ -1,5 +1,5 @@
 const Head = () => {
-	const tableHeadStyles = "bg-slate-300 text-left ";
+	const tableHeadStyles = "bg-sky-200 text-left ";
 	const headingStyles = "px-6 py-3";
 
 	return(

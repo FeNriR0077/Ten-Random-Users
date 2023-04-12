@@ -4,7 +4,7 @@ const Loading = () => (
 		<img
 			src={loadingImg}
 			alt="loading"
-			className="block w-1/3 mt-9 mx-auto loading-image"
+			className="block w-1/3 mx-auto loading-image"
 		/>
 	</div>
 );
