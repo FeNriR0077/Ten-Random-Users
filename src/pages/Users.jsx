@@ -1,50 +1,17 @@
-import { useEffect, useState } from "react";
-import { Loading, Error, fetchUsers } from "src/utils";
-import UserContextProvider from "src/hooks";
+import { useContext } from "react";
+import { UserContext } from "src/contexts";
+import { Error } from "src/components/Common";
 import Table from "src/components/Table";
-
-const TRUEFALSE = {
-	TRUE: true,
-	FALSE: false,
-};
+import Filter from "src/components/Filter";
+import Search from "src/components/Search";
 
 const Users = () => {
-	const [ refresh, setRefresh ] = useState(TRUEFALSE.FALSE);
-	const [ loading, setLoading ] = useState(TRUEFALSE.FALSE);
-	const [ error, setError ] = useState(null);
+	const {
+		states: { loading, error },
+		actions: { handleRefresh },
+	} = useContext(UserContext);
 
-	const [ list, setList ] = useState(null);
-	const isList = !!list;
-
-	useEffect(() => {
-		const abortController = new AbortController();
-
-		const getUsers = async () => {
-			try {
-				setList(null);
-				setError(null);
-				setLoading(TRUEFALSE.TRUE);
-
-				const data = await fetchUsers(abortController);
-				setList(data.results);
-
-			} catch (error) {
-				if (error.name === "AbortError") {
-				} else {
-					setError(error.message);
-				}
-
-			} finally {
-				setLoading(TRUEFALSE.FALSE);
-			}
-		};
-
-		getUsers();
-
-		return () => abortController.abort();
-	}, [refresh]);
-
-	const handleRefresh = () => setRefresh((r) => !r);
+	const isError = !!error;
 
 	return (
 		<div className="mx-auto">
@@ -55,19 +22,21 @@ const Users = () => {
 				disabled={loading ? "disabled" : ""}
 				onClick={handleRefresh}
 			>
-                REFRESH
+        		REFRESH
 			</button>
 
-			{loading && <Loading />}
-			{error && <Error />}
+			{isError && <Error />}
 
-			{isList &&
-				<UserContextProvider value={list}>
-					<Table />
-				</UserContextProvider>
-			}
+			<div className="mx-auto w-fit user-table">
+				<div className="flex justify-between w-full mb-3 search-and-filter">
+					{isError === false && <Search />}
+
+					{isError === false && <Filter />}
+				</div>
+
+				{isError === false && <Table />}
+			</div>
 		</div>
-
 	);
 };
 
