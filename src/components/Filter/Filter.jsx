@@ -1,9 +1,8 @@
-import { useContext, useRef } from "react";
+import { useContext } from "react";
 import { UserContext } from "src/contexts";
 
 const Filter = () => {
-	const { actions: { handleFilter } } = useContext(UserContext);
-	const filterValue = useRef();
+	const { queries: { filter }, actions: { handleFilter } } = useContext(UserContext);
 
 	return (
 		<div className="relative filter-options">
@@ -12,9 +11,9 @@ const Filter = () => {
 			<select
 				id= "user-action-filter"
 				name="Filter"
-				ref={filterValue}
-				className="px-2 py-1.5 pl-8 text-lg text-white rounded-md bg-sky-600"
-				onChange={() => handleFilter(filterValue.current.value)}
+				ref={filter}
+				className="px-2 py-1.5 pl-8 text-lg text-white rounded-md bg-sky-500 hover:bg-sky-600 cursor-pointer"
+				onChange={() => handleFilter(filter.current.value)}
 			>
 				<option value="def">
                 	Default
