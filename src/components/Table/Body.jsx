@@ -47,7 +47,7 @@ const Body = () => {
 					return (
 						<tr key={uuid} className={`table-row table-data-row ${rowStyles}`}>
 							<td className={`table-data ${dataStyles}`}>
-								<img src={thumbnail} alt={fullName} className="rounded-md" />
+								<img src={thumbnail} alt={fullName} className="w-12 rounded-md" />
 							</td>
 
 							<td className={`table-data ${dataStyles}`}>
