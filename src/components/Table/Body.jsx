@@ -19,8 +19,8 @@ const Body = () => {
 
 			{searchError && (
 				<tr>
-					<td colSpan={"100%"} className="p-12">
-            Sorry, we cound not find any user with that name.
+					<td colSpan={"100%"} className="p-12 text-slate-600">
+            			Sorry, we cound not find any user with that name.
 					</td>
 				</tr>
 			)}

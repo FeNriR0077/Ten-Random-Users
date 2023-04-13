@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useEffect, useState, createContext } from "react";
+import { useEffect, useState, createContext, useRef } from "react";
 import fetchUsers from "src/utils";
 
 const TRUEFALSE = {
@@ -20,6 +20,9 @@ const UserContextProvider = ({ children }) => {
 	const [ loading, setLoading ] = useState(TRUEFALSE.FALSE);
 	const [ searchError, setSearchError ] = useState(TRUEFALSE.FALSE);
 	const [ error, setError ] = useState(null);
+
+	const filter = useRef();
+	const search = useRef();
 
 	const [ rawData, setRawData ] = useState(null);
 	const [ data, setData ] = useState(null);
@@ -51,13 +54,17 @@ const UserContextProvider = ({ children }) => {
 		return () => abortController.abort();
 	}, [refresh]);
 
-	const handleRefresh = () => setRefresh((r) => !r);
+	const handleRefresh = () => {
+		setRefresh((r) => !r);
+		return search.current.value = "";
+	};
 
 	const handleFilter = (type) => {
 		const filterData = [...data];
 
 		if (type === FILTEROPTIONS.DEF) {
 			setData(rawData);
+			search.current.value = "";
 		}
 
 		if (type === FILTEROPTIONS.ASC) {
@@ -75,19 +82,14 @@ const UserContextProvider = ({ children }) => {
 		}
 	};
 
-	const handleSearch = (inputValue) => {
+	const handleSearch = (query) => {
 		setSearchError(TRUEFALSE.FALSE);
-		let isInputValue = !!inputValue;
 
 		const searchDataList = rawData.filter((user) => {
 			const { name } = user;
-			return name.first.toLowerCase().startsWith(inputValue);
+			return name.first.toLowerCase().startsWith(query);
 		});
 		setData(searchDataList);
-
-		if (isInputValue === false) {
-			setData(rawData);
-		}
 
 		if (searchDataList.length === 0) {
 			setSearchError(TRUEFALSE.TRUE);
@@ -108,12 +110,18 @@ const UserContextProvider = ({ children }) => {
 		handleSearch,
 	};
 
+	const queries = {
+		search,
+		filter
+	};
+
 	return (
 		<>
 			<UserContext.Provider
 				value={{
 					states,
 					actions,
+					queries
 				}}
 			>
 				{children}
