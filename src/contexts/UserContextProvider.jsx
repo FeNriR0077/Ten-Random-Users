@@ -2,11 +2,6 @@ import PropTypes from "prop-types";
 import { useEffect, useState, createContext, useRef } from "react";
 import fetchUsers from "src/utils";
 
-const TRUEFALSE = {
-	TRUE: true,
-	FALSE: false,
-};
-
 const FILTEROPTIONS = {
 	ASC: "asc",
 	DESC: "desc",
@@ -16,10 +11,12 @@ const FILTEROPTIONS = {
 export const UserContext = createContext(null);
 
 const UserContextProvider = ({ children }) => {
-	const [ refresh, setRefresh ] = useState(TRUEFALSE.FALSE);
-	const [ loading, setLoading ] = useState(TRUEFALSE.FALSE);
-	const [ searchError, setSearchError ] = useState(TRUEFALSE.FALSE);
+	const [ refresh, setRefresh ] = useState(false);
+	const [ loading, setLoading ] = useState(false);
 	const [ error, setError ] = useState(null);
+	const [ searchError, setSearchError ] = useState(false);
+
+	const [ orderType, setOrderType ] = useState("asc");
 
 	const filter = useRef();
 	const search = useRef();
@@ -34,7 +31,8 @@ const UserContextProvider = ({ children }) => {
 			try {
 				setData(null);
 				setError(null);
-				setLoading(TRUEFALSE.TRUE);
+				setLoading(true);
+				setSearchError(false);
 
 				const res = await fetchUsers(abortController);
 				setRawData(res.results);
@@ -45,7 +43,7 @@ const UserContextProvider = ({ children }) => {
 					setError(error.message);
 				}
 			} finally {
-				setLoading(TRUEFALSE.FALSE);
+				setLoading(false);
 			}
 		};
 
@@ -59,8 +57,9 @@ const UserContextProvider = ({ children }) => {
 		return search.current.value = "";
 	};
 
-	const handleFilter = (type) => {
-		const filterData = [...data];
+	const handleFilter = (type,dataArr=[]) => {
+		const filterData = dataArr.length === 0 ? [...data] : [...dataArr];
+		setOrderType(type);
 
 		if (type === FILTEROPTIONS.DEF) {
 			setData(rawData);
@@ -72,6 +71,7 @@ const UserContextProvider = ({ children }) => {
 				a.name.first.toLowerCase().localeCompare(b.name.first)
 			);
 			setData(ascData);
+
 		}
 
 		if (type === FILTEROPTIONS.DESC) {
@@ -83,17 +83,28 @@ const UserContextProvider = ({ children }) => {
 	};
 
 	const handleSearch = (query) => {
-		setSearchError(TRUEFALSE.FALSE);
+		setSearchError(false);
+		const isQuery = !!query;
 
 		const searchDataList = rawData.filter((user) => {
 			const { name } = user;
 			return name.first.toLowerCase().startsWith(query);
 		});
-		setData(searchDataList);
 
-		if (searchDataList.length === 0) {
-			setSearchError(TRUEFALSE.TRUE);
+		if (searchDataList) {
+			setData(searchDataList);
 		}
+
+		if(searchDataList.length === 0) {
+			setSearchError(true);
+		}
+
+		if (isQuery === false) {
+			setSearchError(false);
+			handleFilter(orderType,rawData);
+
+		};
+
 	};
 
 	const states = {
