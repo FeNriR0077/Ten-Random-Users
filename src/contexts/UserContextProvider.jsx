@@ -85,8 +85,9 @@ const UserContextProvider = ({ children }) => {
 	const handleSearch = (query) => {
 		setSearchError(false);
 		const isQuery = !!query;
+		handleFilter(orderType,rawData);
 
-		const searchDataList = rawData.filter((user) => {
+		const searchDataList = data.filter((user) => {
 			const { name } = user;
 			return name.first.toLowerCase().startsWith(query);
 		});
