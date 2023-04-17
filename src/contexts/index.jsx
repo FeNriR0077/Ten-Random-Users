@@ -1,5 +1,5 @@
-import UserContextProvider from "./UserContextProvider";
-import { UserContext } from "./UserContextProvider";
+import UserContextProvider from "./UserProvider";
+import { UserContext } from "./UserProvider";
 
 export default UserContextProvider;
 export { UserContext };

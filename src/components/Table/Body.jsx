@@ -25,7 +25,7 @@ const Body = () => {
 				</tr>
 			)}
 
-			{data &&
+			{!searchError && data &&
 				data.map((user) => {
 					const {
 						picture: { thumbnail },

@@ -1,11 +1,11 @@
 import Users from "src/pages";
-import UserContextProvider from "./contexts";
+import UserProvider from "src/contexts";
 
 const App = () => (
 	<div className="App">
-		<UserContextProvider>
+		<UserProvider>
 			<Users />
-		</UserContextProvider>
+		</UserProvider>
 	</div>
 );
 
