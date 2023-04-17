@@ -10,7 +10,7 @@ const FILTEROPTIONS = {
 
 export const UserContext = createContext(null);
 
-const UserContextProvider = ({ children }) => {
+const UserProvider = ({ children }) => {
 	const [ refresh, setRefresh ] = useState(false);
 	const [ loading, setLoading ] = useState(false);
 	const [ error, setError ] = useState(null);
@@ -142,8 +142,8 @@ const UserContextProvider = ({ children }) => {
 	);
 };
 
-UserContextProvider.propTypes = {
+UserProvider.propTypes = {
 	children: PropTypes.element,
 };
 
-export default UserContextProvider;
+export default UserProvider;
