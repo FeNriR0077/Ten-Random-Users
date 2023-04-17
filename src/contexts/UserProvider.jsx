@@ -16,7 +16,7 @@ const UserProvider = ({ children }) => {
 	const [ error, setError ] = useState(null);
 	const [ searchError, setSearchError ] = useState(false);
 
-	const [ orderType, setOrderType ] = useState("asc");
+	const [ orderType, setOrderType ] = useState("def");
 
 	const filter = useRef();
 	const search = useRef();
@@ -63,21 +63,21 @@ const UserProvider = ({ children }) => {
 
 		if (type === FILTEROPTIONS.DEF) {
 			setData(rawData);
-			search.current.value = "";
 		}
 
 		if (type === FILTEROPTIONS.ASC) {
 			const ascData = filterData.sort((a, b) =>
 				a.name.first.toLowerCase().localeCompare(b.name.first)
 			);
-			setData(ascData);
 
+			setData(ascData);
 		}
 
 		if (type === FILTEROPTIONS.DESC) {
 			const descData = filterData.sort((a, b) =>
 				b.name.first.toLowerCase().localeCompare(a.name.first)
 			);
+
 			setData(descData);
 		}
 	};
@@ -87,17 +87,18 @@ const UserProvider = ({ children }) => {
 		const isQuery = !!query;
 		handleFilter(orderType,rawData);
 
-		const searchDataList = data.filter((user) => {
+		const searchList = data.filter((user) => {
 			const { name } = user;
 			return name.first.toLowerCase().startsWith(query);
 		});
 
-		if (searchDataList) {
-			setData(searchDataList);
+		if (searchList) {
+			setData(searchList);
 		}
 
-		if(searchDataList.length === 0) {
+		if(searchList.length === 0) {
 			setSearchError(true);
+			handleFilter(orderType,rawData);
 		}
 
 		if (isQuery === false) {
