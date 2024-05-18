@@ -1,2 +1,2 @@
-Ten random users are displayed in a table.
+Ten random users are displayed in a table layout.
 
